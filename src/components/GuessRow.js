@@ -1,13 +1,17 @@
 import GuessSqaure from "./GuessSquare"
 
-export default function GuessRow({letter1, letter2, letter3, letter4, letter5}){
-  return (
+export default function GuessRow({ guess }){
+  let letters = ['','','','','']
+  if (guess){
+    letters = guess.split('')
+    while (letters.length < 5){
+      letters.push('')
+    }
+  }  return (
     <div style={{display: 'flex'}}>
-     <GuessSqaure letter={letter1} /> 
-     <GuessSqaure letter={letter2} /> 
-     <GuessSqaure letter={letter3} /> 
-     <GuessSqaure letter={letter4} /> 
-     <GuessSqaure letter={letter5} /> 
+      {letters.map((letter, i)=>(
+       <GuessSqaure key={i} letter={letter} /> 
+      ))}
     </div>
   )
 }

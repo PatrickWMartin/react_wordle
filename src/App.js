@@ -1,5 +1,5 @@
 import { useState } from "react";
-import GuessRow from "./components/GuessRow";
+import GuessGrid from "./components/GuessGrid";
 import LetterKey from "./components/LetterKey";
 import Backspace from "./components/Backspace";
 import EnterKey from "./components/EnterKey";
@@ -8,7 +8,7 @@ function App() {
   const [solution, setSolution] = useState('react');
   const [turn, setTurn] = useState(0);
   const [currentGuess, setCurrentGuess] = useState("");
-
+  const [guesses, setGuesses] = useState([...Array(6)])
   const letterClick = (letter) =>{
     if(currentGuess.length < 5){
       setCurrentGuess(currentGuess+letter);
@@ -18,7 +18,6 @@ function App() {
   const deleteLetter = () => {
     setCurrentGuess(currentGuess.slice(0,-1));
   }
-
   return (
     <div>
     <div style={{display:'flex',flexDirection: 'column', alignItems: "center"}}>
@@ -27,11 +26,7 @@ function App() {
         <p>Current Guess: {currentGuess}</p>
       </div>
       <div>
-        <GuessRow letter1={''} letter2={''} letter3={''} letter4={''} letter5={''} />
-        <GuessRow letter1={''} letter2={''} letter3={''} letter4={''} letter5={''}/>
-        <GuessRow letter1={''} letter2={''} letter3={''} letter4={''} letter5={''}/>
-        <GuessRow letter1={''} letter2={''} letter3={''} letter4={''} letter5={''}/>
-        <GuessRow letter1={''} letter2={''} letter3={''} letter4={''} letter5={''}/>
+          <GuessGrid guesses={guesses} currentGuess={currentGuess} turn={turn} />
       </div>
       <div style={{display:'flex'}}>
         <LetterKey onClick={letterClick} letter={'Q'}/>
