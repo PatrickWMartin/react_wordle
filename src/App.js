@@ -5,18 +5,50 @@ import Backspace from "./components/Backspace";
 import EnterKey from "./components/EnterKey";
 
 function App() {
-  const [solution, setSolution] = useState('react');
+  const [solution, setSolution] = useState('REACT');
   const [turn, setTurn] = useState(0);
   const [currentGuess, setCurrentGuess] = useState("");
-  const [guesses, setGuesses] = useState([...Array(6)])
+  const [guesses, setGuesses] = useState([...Array(6)]);
+  const [gameOver, setGameOver] = useState(false);
+  
   const letterClick = (letter) =>{
+    if (gameOver){
+      return;
+    }
     if(currentGuess.length < 5){
       setCurrentGuess(currentGuess+letter);
     }
   };
 
   const deleteLetter = () => {
+    if (gameOver){
+      return;
+    }
     setCurrentGuess(currentGuess.slice(0,-1));
+  }
+
+  const enterClick = () => {
+    if (gameOver){
+      return;
+    }
+    if (currentGuess.length < 5 || guesses.indexOf(currentGuess) > -1){
+      return;
+    }
+    if (turn === 5){
+      console.log('Lose');
+      setGameOver(true);
+      return;
+    }
+    if (currentGuess === solution){
+      console.log('Winner');
+      setGameOver(true);
+      return;
+    }
+    let guessUpdate = [...guesses]
+    guessUpdate[turn] = currentGuess;
+    setGuesses(guessUpdate)
+    setTurn(turn+1);
+    setCurrentGuess('');
   }
   return (
     <div>
@@ -52,7 +84,7 @@ function App() {
         <LetterKey onClick={letterClick} letter={'L'}/>
       </div>
       <div style={{display:'flex'}}>
-        <EnterKey />
+        <EnterKey enterHandler={enterClick}/>
         <LetterKey onClick={letterClick} letter={'Z'}/>
         <LetterKey onClick={letterClick} letter={'X'}/>
         <LetterKey onClick={letterClick} letter={'C'}/>
